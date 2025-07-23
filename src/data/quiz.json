@@ -1,0 +1,17 @@
+[
+  {
+    "question": "Chiến khu 7 được thành lập vào năm nào?",
+    "options": ["1945", "1946", "1954", "1975"],
+    "answer": 0
+  },
+  {
+    "question": "Chiến dịch nào là chiến dịch giải phóng Sài Gòn?",
+    "options": ["Chiến dịch Tây Nguyên", "Chiến dịch Trị - Thiên", "Chiến dịch Hồ Chí Minh", "Chiến dịch Đường 9 - Nam Lào"],
+    "answer": 2
+  },
+  {
+    "question": "Đội Việt Nam tuyên truyền giải phóng quân được thành lập khi nào?",
+    "options": ["12-2-1943", "22-12-1943", "22-12-1944", "12-2-1944"],
+    "answer": 2
+  }
+]
