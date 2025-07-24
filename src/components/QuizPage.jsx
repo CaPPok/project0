@@ -1,7 +1,8 @@
 // src/components/QuizPage.jsx
 import React, { useEffect, useState, useCallback } from "react";
 import quizData from "../data/quiz.json";
-
+import { collection, addDoc } from "firebase/firestore";
+import { db } from "../firebaseConfig";
 /*
 1. currentIndex: chỉ số câu hỏi hiện tại
 2. selected: chỉ số đáp án mà player đã chọn (chưa chọn = null)
@@ -9,7 +10,14 @@ import quizData from "../data/quiz.json";
 4. showResult: cho biết kết quả
 5. timeLeft: thời gian đếm ngược
 */
-const QuizPage = ({ playerName }) => {
+const QuizPage = ({
+  playerName,
+  onViewLeaderboard,
+  showResultPage,
+  setShowResultPage,
+  setLastScore,
+  lastScore,
+}) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selected, setSelected] = useState(null);
   const [score, setScore] = useState(0);
@@ -27,7 +35,6 @@ const QuizPage = ({ playerName }) => {
       // Kiếm tra đúng hay sai
       const isCorrect = optionIndex === currentQuestion.answer;
       if (isCorrect) setScore((prev) => prev + 1);
-      
       // Thời gian chờ sau khi chọn đáp án
       setTimeout(() => {
         if (currentIndex + 1 < quizData.length) {
@@ -36,6 +43,7 @@ const QuizPage = ({ playerName }) => {
           setTimeLeft(20);
         } else {
           setShowResult(true);
+          //setLastScore(score);
         }
       }, 1000);
     },
@@ -57,39 +65,50 @@ const QuizPage = ({ playerName }) => {
   // Lưu điểm khi hoàn thành
   useEffect(() => {
     if (showResult && playerName) {
-      const leaderboard = JSON.parse(localStorage.getItem("leaderboard")) || [];
-
-      // Cập nhật bảng xếp hạng
-      const updatedBoard = [
-        ...leaderboard,
-        { name: playerName, score, time: new Date().toLocaleString() },
-      ];
-      // Bảng xếp hạng 5 kết quả gần nhất
-      const trimmedBoard = updatedBoard.slice(-5);
-      localStorage.setItem("leaderboard", JSON.stringify(trimmedBoard));
+      setLastScore(score);
+      const saveScore = async () => {
+        await addDoc(collection(db, "leaderboard"), {
+          name: playerName,
+          score,
+          time: new Date().toISOString(),
+        });
+      };
+      saveScore();
     }
-  }, [showResult, playerName, score]);
+  }, [showResult, playerName, score, setLastScore]);
+  // useEffect(() => {
+  //   if (showResult && playerName) {
+  //     const leaderboard = JSON.parse(localStorage.getItem("leaderboard")) || [];
 
-  if (showResult) {
-    const leaderboard = JSON.parse(localStorage.getItem("leaderboard")) || [];
+  //     // Cập nhật bảng xếp hạng
+  //     const updatedBoard = [
+  //       ...leaderboard,
+  //       { name: playerName, score, time: new Date().toLocaleString() },
+  //     ];
+  //     // Bảng xếp hạng 5 kết quả gần nhất
+  //     const trimmedBoard = updatedBoard.slice(-5);
+  //     localStorage.setItem("leaderboard", JSON.stringify(trimmedBoard));
+  //   }
+  // }, [showResult, playerName, score]);
 
-    // Giao diện kết quả và bảng xếp hạng
+  if (showResult || showResultPage) {
     return (
       <div className="quiz-container">
         <h2 className="question-title">🎉 Hoàn thành quiz!</h2>
-        <p>Điểm số của bạn, {playerName}: <strong>{score}/{quizData.length}</strong></p>
+        <p>
+          Điểm số của bạn, {playerName}:{" "}
+          <strong>
+            {lastScore}/{quizData.length}
+          </strong>
+        </p>
 
-        <h3 style={{ marginTop: "30px" }}>🏆 Bảng xếp hạng gần nhất:</h3>
-        <ul>
-          {leaderboard
-            .slice()
-            .reverse()
-            .map((entry, index) => (
-              <li key={index}>
-                {entry.name} – {entry.score} điểm ({entry.time})
-              </li>
-            ))}
-        </ul>
+        <button
+          className="option-button"
+          onClick={onViewLeaderboard}
+          style={{ marginTop: "20px" }}
+        >
+          📈 Xem bảng xếp hạng toàn quốc
+        </button>
       </div>
     );
   }
@@ -101,7 +120,6 @@ const QuizPage = ({ playerName }) => {
         Câu {currentIndex + 1}/{quizData.length}
       </h1>
       <p>{currentQuestion.question}</p>
-      
       {/*Hiển thị các lựa chọn*/}
       <div className="options-grid">
         {currentQuestion.options.map((option, index) => {
@@ -113,7 +131,7 @@ const QuizPage = ({ playerName }) => {
               className += " incorrect";
             }
           }
-          
+
           // Hiển thị nút chọn đáp án
           return (
             <button
