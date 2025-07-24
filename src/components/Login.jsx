@@ -13,7 +13,6 @@ const Login = ({ onStart }) => {
       <h2 className="question-title">
         Chào mừng bạn đến với phần trắc nghiệm của Quân khu 7!
       </h2>
-
       <p>Hãy nhập tên của bạn để bắt đầu:</p>
       <input
         type="text"

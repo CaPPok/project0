@@ -35,7 +35,6 @@ const QuizPage = ({
       // Kiếm tra đúng hay sai
       const isCorrect = optionIndex === currentQuestion.answer;
       if (isCorrect) setScore((prev) => prev + 1);
-
       // Thời gian chờ sau khi chọn đáp án
       setTimeout(() => {
         if (currentIndex + 1 < quizData.length) {
@@ -121,7 +120,6 @@ const QuizPage = ({
         Câu {currentIndex + 1}/{quizData.length}
       </h1>
       <p>{currentQuestion.question}</p>
-
       {/*Hiển thị các lựa chọn*/}
       <div className="options-grid">
         {currentQuestion.options.map((option, index) => {
