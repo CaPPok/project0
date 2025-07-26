@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { collection, getDocs, query, orderBy, limit } from "firebase/firestore";
 import { db } from "../firebaseConfig";
-import * as XLSX from "xlsx"; // ✅ thêm thư viện export excel
+import * as XLSX from "xlsx"; // Thư viện dùng xuất file excel
 
 const LeaderboardPage = ({ isAdmin, onBack }) => {
   const [entries, setEntries] = useState([]);
@@ -12,33 +12,34 @@ const LeaderboardPage = ({ isAdmin, onBack }) => {
         const q = query(
           collection(db, "leaderboard"),
           orderBy("score", "desc"),
+          orderBy("duration", "asc"),
           limit(10)
         );
         const snapshot = await getDocs(q);
         const data = snapshot.docs.map((doc) => doc.data());
         setEntries(data);
       } catch (error) {
-        console.error("Lỗi khi đọc dữ liệu từ Firebase:", error);
+        alert(error);
       }
     };
 
     fetchLeaderboard();
   }, []);
 
-  // ✅ Hàm export file Excel
+  // Hàm export file Excel
   const handleExport = () => {
     const worksheetData = entries.map((entry, index) => ({
       STT: index + 1,
       Tên: entry.name,
       Điểm: entry.score,
-      ThờiGian: new Date(entry.time).toLocaleString(),
+      Thời_Gian: new Date(entry.time).toLocaleString(),
     }));
 
     const worksheet = XLSX.utils.json_to_sheet(worksheetData);
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "Bảng Xếp Hạng");
 
-    XLSX.writeFile(workbook, "leaderboard.xlsx");
+    XLSX.writeFile(workbook, "Bảng xếp hạng toàn bộ.xlsx");
   };
 
   return (
@@ -51,14 +52,13 @@ const LeaderboardPage = ({ isAdmin, onBack }) => {
         <ul>
           {entries.map((entry, index) => (
             <li key={index}>
-              {index + 1}. {entry.name} – {entry.score} điểm (
-              {new Date(entry.time).toLocaleString()})
+              {index + 1}. {entry.name} – {entry.score} điểm ({entry.duration})
             </li>
           ))}
         </ul>
       )}
 
-      {/* ✅ Nút export chỉ hiển thị nếu là admin */}
+      {/* Giao diện Export file excel cho admin */}
       {isAdmin && (
         <button
           className="option-button"

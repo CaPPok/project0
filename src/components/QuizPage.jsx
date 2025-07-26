@@ -1,5 +1,5 @@
 // src/components/QuizPage.jsx
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useRef } from "react";
 import quizData from "../data/quiz.json";
 import { collection, addDoc } from "firebase/firestore";
 import { db } from "../firebaseConfig";
@@ -23,6 +23,10 @@ const QuizPage = ({
   const [score, setScore] = useState(0);
   const [showResult, setShowResult] = useState(false);
   const [timeLeft, setTimeLeft] = useState(20);
+  const hasSaved = useRef(false);
+  const startTime = useRef(new Date());
+  // const [endTime, setEndTime] = useState(startTime);
+  // const [duration, setDuration] = useState(0);
   //const [bonusScore, setBonusScore] = useState(0);
 
   const currentQuestion = quizData[currentIndex];
@@ -36,11 +40,11 @@ const QuizPage = ({
       // Kiếm tra đúng hay sai
       const isCorrect = optionIndex === currentQuestion.answer;
       if (isCorrect) {
-        //Tính điểm bonus dựa trên thời gian còn lại 
+        //Tính điểm bonus dựa trên thời gian còn lại
         const bonusScore = Math.round((timeLeft / 20) * 10);
         setScore((prev) => prev + 10 + bonusScore);
       }
-      // else{ 
+      // else{
 
       // }
       // Thời gian chờ sau khi chọn đáp án
@@ -51,6 +55,8 @@ const QuizPage = ({
           setTimeLeft(20);
         } else {
           setShowResult(true);
+          // setEndTime(Date.now());
+          // setDuration(endTime - startTime);
           //setLastScore(score);
         }
       }, 1000);
@@ -72,18 +78,22 @@ const QuizPage = ({
 
   // Lưu điểm khi hoàn thành
   useEffect(() => {
-    if (showResult && playerName) {
+    if (showResult && playerName && !hasSaved.current) {
+      hasSaved.current = true;
       setLastScore(score);
+      const endTime = new Date();
+      const duration = endTime - startTime.current;
       const saveScore = async () => {
         await addDoc(collection(db, "leaderboard"), {
           name: playerName,
           score,
+          duration,
           time: new Date().toISOString(),
         });
       };
       saveScore();
     }
-  }, [showResult, playerName, score, setLastScore]);
+  }, [showResult, playerName, score, setLastScore, startTime]);
 
   if (showResult || showResultPage) {
     return (
@@ -110,8 +120,12 @@ const QuizPage = ({
   return (
     <>
       <div className="absolute top-4 right-4 bg-white shadow-lg border border-gray-200 rounded-xl px-5 py-3 text-center">
-        <div className="text-gray-600 text-sm">🎯 <strong>Điểm hiện tại</strong></div>
-        <div className="text-2xl font-bold text-blue-600"><strong>{score}</strong></div>
+        <div className="text-gray-600 text-sm">
+          🎯 <strong>Điểm hiện tại</strong>
+        </div>
+        <div className="text-2xl font-bold text-blue-600">
+          <strong>{score}</strong>
+        </div>
       </div>
 
       {/*Hiển thị câu hỏi*/}

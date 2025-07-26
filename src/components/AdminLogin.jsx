@@ -6,23 +6,23 @@ const AdminLogin = ({ onLoginSuccess, onBack }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const hadleLogin = async () => {
+  //Xử lý phần đăng nhập admin
+  const handleLogin = async () => {
     try {
       const userInfor = await signInWithEmailAndPassword(auth, email, password);
       const user = userInfor.user;
 
       const adminEmail = process.env.REACT_APP_ADMIN_EMAIL;
-      console.log("Admin email (env):", adminEmail);
-      console.log("Đang nhập:", user.email);
 
       if (user.email === adminEmail) {
         onLoginSuccess(true);
-      } else {
-        alert("Tài khoản không có quyền admin.");
       }
+      //Phần này phát triển khi có nhiều role khác
+      // else {
+      //   alert("Tài khoản không có quyền admin.");
+      // }
     } catch (error) {
-      console.error("Lỗi đăng nhập:", error);
-      alert("Đăng nhập thất bại, vui lòng thử lại.");
+      alert("Email đăng nhập hoặc mật khẩu chưa đúng!");
     }
   };
 
@@ -31,12 +31,18 @@ const AdminLogin = ({ onLoginSuccess, onBack }) => {
       <h2 className="question-title">Đăng nhập Admin</h2>
       <input
         type="email"
-        placeholder="Email admin"
+        placeholder="Email"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
         className="admin-input"
       />
-      <button className="option-button" onClick={hadleLogin}>
+      <input
+        type="password"
+        placeholder="Password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+      />
+      <button className="option-button" onClick={handleLogin}>
         Đăng nhập
       </button>
       <button
