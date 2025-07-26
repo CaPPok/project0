@@ -14,7 +14,7 @@ const QuizPage = ({
   playerName,
   onViewLeaderboard,
   showResultPage,
-  setShowResultPage,
+  //setShowResultPage,
   setLastScore,
   lastScore,
 }) => {
@@ -23,6 +23,7 @@ const QuizPage = ({
   const [score, setScore] = useState(0);
   const [showResult, setShowResult] = useState(false);
   const [timeLeft, setTimeLeft] = useState(20);
+  //const [bonusScore, setBonusScore] = useState(0);
 
   const currentQuestion = quizData[currentIndex];
 
@@ -34,7 +35,14 @@ const QuizPage = ({
 
       // Kiếm tra đúng hay sai
       const isCorrect = optionIndex === currentQuestion.answer;
-      if (isCorrect) setScore((prev) => prev + 1);
+      if (isCorrect) {
+        //Tính điểm bonus dựa trên thời gian còn lại 
+        const bonusScore = Math.round((timeLeft / 20) * 10);
+        setScore((prev) => prev + 10 + bonusScore);
+      }
+      // else{ 
+
+      // }
       // Thời gian chờ sau khi chọn đáp án
       setTimeout(() => {
         if (currentIndex + 1 < quizData.length) {
@@ -47,7 +55,7 @@ const QuizPage = ({
         }
       }, 1000);
     },
-    [currentIndex, currentQuestion.answer]
+    [currentIndex, currentQuestion.answer, timeLeft]
   );
 
   // Đếm ngược thời gian
@@ -76,20 +84,6 @@ const QuizPage = ({
       saveScore();
     }
   }, [showResult, playerName, score, setLastScore]);
-  // useEffect(() => {
-  //   if (showResult && playerName) {
-  //     const leaderboard = JSON.parse(localStorage.getItem("leaderboard")) || [];
-
-  //     // Cập nhật bảng xếp hạng
-  //     const updatedBoard = [
-  //       ...leaderboard,
-  //       { name: playerName, score, time: new Date().toLocaleString() },
-  //     ];
-  //     // Bảng xếp hạng 5 kết quả gần nhất
-  //     const trimmedBoard = updatedBoard.slice(-5);
-  //     localStorage.setItem("leaderboard", JSON.stringify(trimmedBoard));
-  //   }
-  // }, [showResult, playerName, score]);
 
   if (showResult || showResultPage) {
     return (
@@ -98,7 +92,7 @@ const QuizPage = ({
         <p>
           Điểm số của bạn, {playerName}:{" "}
           <strong>
-            {lastScore}/{quizData.length}
+            {lastScore}/{quizData.length * 20}
           </strong>
         </p>
 
@@ -107,46 +101,53 @@ const QuizPage = ({
           onClick={onViewLeaderboard}
           style={{ marginTop: "20px" }}
         >
-          📈 Xem bảng xếp hạng toàn quốc
+          📈 Xem bảng xếp hạng
         </button>
       </div>
     );
   }
 
   return (
-    // Hiển thị câu hỏi
-    <div className="quiz-container">
-      <h1 className="question-title">
-        Câu {currentIndex + 1}/{quizData.length}
-      </h1>
-      <p>{currentQuestion.question}</p>
-      {/*Hiển thị các lựa chọn*/}
-      <div className="options-grid">
-        {currentQuestion.options.map((option, index) => {
-          let className = "option-button";
-          if (selected !== null) {
-            if (index === currentQuestion.answer) {
-              className += " correct";
-            } else if (index === selected) {
-              className += " incorrect";
-            }
-          }
-
-          // Hiển thị nút chọn đáp án
-          return (
-            <button
-              key={index}
-              className={className}
-              onClick={() => handleAnswer(index)}
-              disabled={selected !== null}
-            >
-              {option}
-            </button>
-          );
-        })}
+    <>
+      <div className="absolute top-4 right-4 bg-white shadow-lg border border-gray-200 rounded-xl px-5 py-3 text-center">
+        <div className="text-gray-600 text-sm">🎯 <strong>Điểm hiện tại</strong></div>
+        <div className="text-2xl font-bold text-blue-600"><strong>{score}</strong></div>
       </div>
-      <div className="timer">⏳ {timeLeft} giây</div>
-    </div>
+
+      {/*Hiển thị câu hỏi*/}
+      <div className="quiz-container">
+        <h1 className="question-title">
+          Câu {currentIndex + 1}/{quizData.length}
+        </h1>
+        <p>{currentQuestion.question}</p>
+        {/*Hiển thị các lựa chọn*/}
+        <div className="options-grid">
+          {currentQuestion.options.map((option, index) => {
+            let className = "option-button";
+            if (selected !== null) {
+              if (index === currentQuestion.answer) {
+                className += " correct";
+              } else if (index === selected) {
+                className += " incorrect";
+              }
+            }
+
+            // Hiển thị nút chọn đáp án
+            return (
+              <button
+                key={index}
+                className={className}
+                onClick={() => handleAnswer(index)}
+                disabled={selected !== null}
+              >
+                {option}
+              </button>
+            );
+          })}
+        </div>
+        <div className="timer">⏳ {timeLeft} giây</div>
+      </div>
+    </>
   );
 };
 

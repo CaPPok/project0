@@ -1,20 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { collection, getDocs, query, orderBy, limit } from "firebase/firestore";
-import { db } from "../firebaseConfig"; // import kết nối firestore
+import { db } from "../firebaseConfig";
+import * as XLSX from "xlsx"; // ✅ thêm thư viện export excel
 
-const LeaderboardPage = ({ onBack }) => {
+const LeaderboardPage = ({ isAdmin, onBack }) => {
   const [entries, setEntries] = useState([]);
 
   useEffect(() => {
     const fetchLeaderboard = async () => {
       try {
-        // Truy vấn dữ liệu từ collection "leaderboard", sắp xếp theo score giảm dần
         const q = query(
           collection(db, "leaderboard"),
           orderBy("score", "desc"),
-          limit(10) // Lấy top 10
+          limit(10)
         );
-
         const snapshot = await getDocs(q);
         const data = snapshot.docs.map((doc) => doc.data());
         setEntries(data);
@@ -26,11 +25,28 @@ const LeaderboardPage = ({ onBack }) => {
     fetchLeaderboard();
   }, []);
 
+  // ✅ Hàm export file Excel
+  const handleExport = () => {
+    const worksheetData = entries.map((entry, index) => ({
+      STT: index + 1,
+      Tên: entry.name,
+      Điểm: entry.score,
+      ThờiGian: new Date(entry.time).toLocaleString(),
+    }));
+
+    const worksheet = XLSX.utils.json_to_sheet(worksheetData);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Bảng Xếp Hạng");
+
+    XLSX.writeFile(workbook, "leaderboard.xlsx");
+  };
+
   return (
     <div className="quiz-container">
-      <h2 className="question-title">🏆 Bảng xếp hạng toàn quốc</h2>
+      <h2 className="question-title">🏆 Bảng xếp hạng</h2>
+
       {entries.length === 0 ? (
-        <p>Không có dữ liệu nào!</p>
+        <p>Vui lòng chờ trong giây lát!</p>
       ) : (
         <ul>
           {entries.map((entry, index) => (
@@ -40,6 +56,17 @@ const LeaderboardPage = ({ onBack }) => {
             </li>
           ))}
         </ul>
+      )}
+
+      {/* ✅ Nút export chỉ hiển thị nếu là admin */}
+      {isAdmin && (
+        <button
+          className="option-button"
+          onClick={handleExport}
+          style={{ marginTop: "15px", backgroundColor: "#4CAF50" }}
+        >
+          ⬇ Xuất file Excel
+        </button>
       )}
 
       <button

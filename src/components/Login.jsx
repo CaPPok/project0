@@ -1,10 +1,14 @@
 import React, { useState } from "react";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../firebaseConfig";
+//import React, { useEffect, useRef } from "react";
 
 const Login = ({ onStart }) => {
   const [name, setName] = useState("");
 
   const handleStart = () => {
     if (name.trim() === "") return;
+
     onStart(name);
   };
 
@@ -45,7 +49,8 @@ const Login = ({ onStart }) => {
         <strong>📜 Luật chơi:</strong>
         <ul style={{ paddingLeft: "20px", marginTop: "10px" }}>
           <li>🕒 Mỗi câu hỏi có 20 giây để trả lời.</li>
-          <li>✅ Chọn đúng sẽ được cộng 1 điểm.</li>
+          <li>✅ Chọn đúng sẽ được cộng 10 và điểm thưởng.</li>
+          <li>🎁 Trả lời càng nhanh điểm thưởng càng cao.</li>
           <li>❌ Trả lời sai hoặc hết giờ sẽ không được điểm.</li>
           <li>🔚 Khi kết thúc, điểm và bảng xếp hạng sẽ được hiển thị.</li>
         </ul>
