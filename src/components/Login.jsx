@@ -1,12 +1,14 @@
 import React, { useState } from "react";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../firebaseConfig";
+// import { signInWithEmailAndPassword } from "firebase/auth";
+// import { auth } from "../firebaseConfig";
 //import React, { useEffect, useRef } from "react";
 
+//name: biến tên 
 const Login = ({ onStart }) => {
   const [name, setName] = useState("");
 
   const handleStart = () => {
+    //kiểm tra tên có bị rỗng hay không
     if (name.trim() === "") return;
 
     onStart(name);
@@ -34,7 +36,7 @@ const Login = ({ onStart }) => {
         }}
       />
 
-      {/* 👉 Luật chơi */}
+      {/*Luật chơi */}
       <div
         style={{
           backgroundColor: "#f0f9ff",

@@ -9,6 +9,8 @@ import { db } from "../firebaseConfig";
 3. score: điểm của player
 4. showResult: cho biết kết quả
 5. timeLeft: thời gian đếm ngược
+6. hasSaved: cờ báo đã lưu
+
 */
 const QuizPage = ({
   playerName,
@@ -25,9 +27,6 @@ const QuizPage = ({
   const [timeLeft, setTimeLeft] = useState(20);
   const hasSaved = useRef(false);
   const startTime = useRef(new Date());
-  // const [endTime, setEndTime] = useState(startTime);
-  // const [duration, setDuration] = useState(0);
-  //const [bonusScore, setBonusScore] = useState(0);
 
   const currentQuestion = quizData[currentIndex];
 
@@ -55,9 +54,6 @@ const QuizPage = ({
           setTimeLeft(20);
         } else {
           setShowResult(true);
-          // setEndTime(Date.now());
-          // setDuration(endTime - startTime);
-          //setLastScore(score);
         }
       }, 1000);
     },
@@ -80,9 +76,12 @@ const QuizPage = ({
   useEffect(() => {
     if (showResult && playerName && !hasSaved.current) {
       hasSaved.current = true;
+      //Lưu điểm lại để khôi phục trang kết quả
       setLastScore(score);
+      //Tính thời gian làm bài
       const endTime = new Date();
       const duration = endTime - startTime.current;
+      //Lưu bản ghi vào cloud
       const saveScore = async () => {
         await addDoc(collection(db, "leaderboard"), {
           name: playerName,

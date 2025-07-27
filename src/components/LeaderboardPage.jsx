@@ -3,8 +3,15 @@ import { collection, getDocs, query, orderBy, limit } from "firebase/firestore";
 import { db } from "../firebaseConfig";
 import * as XLSX from "xlsx"; // Thư viện dùng xuất file excel
 
+/*
+entries: mảng top 10 bản nghi
+fullentries: mảng toàn bộ bản ghi
+loading: biến cờ tắt khi đã load xong các mảng 
+*/
 const LeaderboardPage = ({ isAdmin, onBack }) => {
   const [entries, setEntries] = useState([]);
+  const [fullentries, setFullEntries] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchLeaderboard = async () => {
@@ -26,13 +33,35 @@ const LeaderboardPage = ({ isAdmin, onBack }) => {
     fetchLeaderboard();
   }, []);
 
+  useEffect(() => {
+    const fetchFullLeaderboard = async () => {
+      try {
+        const q = query(
+          collection(db, "leaderboard"),
+          orderBy("score", "desc"),
+          orderBy("duration", "asc")
+        );
+        const snapshot = await getDocs(q);
+        const data = snapshot.docs.map((doc) => doc.data());
+        setFullEntries(data);
+      } catch (error) {
+        alert(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchFullLeaderboard();
+  }, []);
+
   // Hàm export file Excel
   const handleExport = () => {
-    const worksheetData = entries.map((entry, index) => ({
+    const worksheetData = fullentries.map((entry, index) => ({
       STT: index + 1,
       Tên: entry.name,
       Điểm: entry.score,
-      Thời_Gian: new Date(entry.time).toLocaleString(),
+      Thời_Gian_Hoàn_Thành: entry.duration,
+      Thời_Gian_Nộp: new Date(entry.time).toLocaleString(),
     }));
 
     const worksheet = XLSX.utils.json_to_sheet(worksheetData);
@@ -44,7 +73,7 @@ const LeaderboardPage = ({ isAdmin, onBack }) => {
 
   return (
     <div className="quiz-container">
-      <h2 className="question-title">🏆 Bảng xếp hạng</h2>
+      <h2 className="question-title">🏆 Bảng xếp hạng top 10</h2>
 
       {entries.length === 0 ? (
         <p>Vui lòng chờ trong giây lát!</p>
@@ -63,7 +92,13 @@ const LeaderboardPage = ({ isAdmin, onBack }) => {
         <button
           className="option-button"
           onClick={handleExport}
-          style={{ marginTop: "15px", backgroundColor: "#4CAF50" }}
+          style={{
+            marginTop: "15px",
+            color: "white",
+            backgroundColor: loading ? "gray" : "green",
+            cursor: loading ? "not-allowed" : "pointer",
+          }}
+          disabled={loading || fullentries.length === 0}
         >
           ⬇ Xuất file Excel
         </button>
