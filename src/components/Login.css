@@ -1,0 +1,235 @@
+body.login-background {
+  background-color: #FEE6C7;
+}
+
+.login-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100vh;
+  padding: 60px;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', sans-serif;
+  color: #5a4d45;
+}
+
+/* Bên trái - phần nhập tên + luật chơi */
+.login-left {
+  flex: 1;
+  padding-right: 40px;
+}
+
+.login-title {
+  text-align: left;
+  font-size: 50px;
+  color: #625852;
+  font-family: 'Segoe UI', sans-serif;
+  margin-top: -300px;
+  margin-bottom: 0px;
+}
+
+.login-decription {
+  text-align: left;
+  font-size: 20px;
+  color: #625852;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.login-name {
+  font-size: 20px;
+  color: #625852;
+}
+
+.login-input {
+  width: 75%;
+  padding: 12px;
+  font-size: 20px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  margin-bottom: 10px;
+}
+
+.login-rule-wrapper{
+  padding: 20px;
+  width: 500px;
+  height: 150px;
+  margin-bottom: 10px;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  background-color: #fff7ef;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  justify-content: center;
+  font-size: 18px;
+}
+
+.login-rule-wrapper ul {
+  padding-left: 20px;
+  margin-top: 10px;
+}
+
+.login-button-grid{
+  text-align: left;
+}
+
+.login-button {
+  padding: 16px 32px;
+  font-size: 20px;
+  border-radius: 16px;
+  background-color: #C71F36;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.login-button:hover {
+  transform: translateY(-3px);
+}
+
+.login-button:disabled {
+  background-color: #fba9a9;
+  cursor: not-allowed;
+}
+
+.login-button:hover:enabled {
+  background-color: #C71F36;
+  transform: translateY(-10px);
+}
+
+/* Bên phải - hình ảnh */
+.login-right {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  margin-top: -140px;
+  margin-right: -60px;
+  align-items: center;
+  overflow: hidden;
+  background-color: #C71F36;
+  padding-left: 20px;
+  padding-bottom: 20px;
+  border-bottom-left-radius: 405px;
+  box-shadow: -3px 5px 15px rgba(0, 0, 0, 0.5);
+}
+
+.login-right img {
+  max-width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/*Cuối trang*/
+.login-footer-strip {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 130px; /* bạn có thể thay đổi chiều cao nếu muốn */
+  background-color: #C71F36;
+  z-index: 0;
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.05);
+}
+
+/*Tạo animation cho khung luật chơi*/
+.rules-toggle-button {
+  padding: 16px 32px;
+  font-size: 20px;
+  background-color: #ffb703;
+  border: none;
+  border-radius: 16px;
+  cursor: pointer;
+  color: #fff;
+  transition: all 0.3s ease;
+  margin-left: 16px;
+}
+
+.rules-toggle-button:hover {
+  background-color: #e3a100;
+  transform: translateY(-10px);
+}
+
+/* Drawer trượt từ dưới lên */
+.rules-drawer {
+  position: fixed;
+  bottom: -220px; /* Ẩn đi */
+  height: 220px;
+  left: 60px;
+  width: 40%;
+  background-color: #fff7ef;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  box-shadow: 4px -4px 6px rgba(0, 0, 0, 0.3);
+  transition: bottom 1s ease;
+  padding: 24px 32px;
+  z-index: 0;
+}
+
+.rules-drawer.show {
+  bottom: 120px; /* Hiện ra */
+}
+
+.rules-drawer ul {
+  padding-left: 20px;
+  margin-top: 10px;
+  font-size: 22px;
+}
+
+.rules-text{
+  padding-left: 20px;
+  font-size: 22px;
+  margin-top: -10px;
+  color: #C71F36;
+  font-weight: bold;
+}
+
+/*Tạo animation cho khung giới thiệu*/
+.inst-toggle-button {
+  padding: 16px 32px;
+  font-size: 20px;
+  background-color: #ffb703;
+  border: none;
+  border-radius: 16px;
+  cursor: pointer;
+  color: #fff;
+  transition: all 0.3s ease;
+  margin-left: 16px;
+}
+
+.inst-toggle-button:hover {
+  background-color: #e3a100;
+  transform: translateY(-10px);
+}
+
+/* Drawer trượt từ dưới lên */
+.inst-drawer {
+  position: fixed;
+  bottom: -220px; /* Ẩn đi */
+  height: 220px;
+  left: 60px;
+  width: 40%;  
+  background-color: #fff7ef;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  box-shadow: 4px -4px 6px rgba(0, 0, 0, 0.3);
+  transition: bottom 1s ease;
+  padding: 24px 32px;
+  z-index: 0;
+}
+
+.inst-drawer.show {
+  bottom: 120px; /* Hiện ra */
+}
+
+.inst-drawer ul {
+  padding-left: 20px;
+  margin-top: 10px;
+  font-size: 22px;
+}
+
+.inst-text{
+  padding-left: 20px;
+  font-size: 22px;
+  margin-top: -10px;
+  color: #C71F36;
+  font-weight: bold;
+}

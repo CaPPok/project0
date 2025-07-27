@@ -3,6 +3,7 @@ import Login from "./components/Login";
 import QuizPage from "./components/QuizPage";
 import LeaderboardPage from "./components/LeaderboardPage";
 import AdminLogin from "./components/AdminLogin";
+import HomePage from "./components/HomePage";
 import "./App.css";
 
 function App() {
@@ -10,6 +11,8 @@ function App() {
   const [showLeaderboard, setShowLeaderboard] = useState(false);
   const [showResultPage, setShowResultPage] = useState(false);
   const [lastScore, setLastScore] = useState(null);
+  const [selectedQuizId, setSelectedQuizId] = useState(null);
+  const [quizData, setQuizData] = useState(null);
 
   //Biến dành cho admin login
   const [page, setPage] = useState("login");
@@ -32,9 +35,38 @@ function App() {
     } else {
       setPlayerName(name);
       setIsAdmin(false);
-      setPage("quiz");
+      setPage("home");
     }
   };
+
+  const handleSelectQuiz = async (quizId) => {
+    try {
+      const data = await import(`./data/${quizId}.json`);
+      setQuizData(data.default);
+      setSelectedQuizId(quizId);
+      setPage("quiz");
+    } catch (error) {
+      alert("Không thể tải dữ liệu quiz.");
+    }
+  };
+
+  if (page === "leaderboard") {
+    return (
+      <LeaderboardPage
+        isAdmin={isAdmin}
+        onBack={() => {
+          if (isAdmin) {
+            setIsAdmin(false);
+            setPlayerName("");
+            setPage("login");
+          } else {
+            setPage("home");
+            setShowResultPage(true);
+          }
+        }}
+      />
+    );
+  }
 
   return (
     <div className="min-h-screen bg-blue-50 flex items-center justify-center">
@@ -54,7 +86,22 @@ function App() {
         />
       )}
 
-      {page === "quiz" && (
+      {page === "home" && (
+        <HomePage
+          playerName={playerName}
+          onSelectQuiz={handleSelectQuiz}
+          onLogout={() => {
+            setPlayerName("");
+            setQuizData(null);
+            setSelectedQuizId(null);
+            setShowResultPage(false);
+            setLastScore(null);
+            setPage("login");
+          }}
+        />
+      )}
+
+      {page === "quiz" && quizData && (
         <QuizPage
           playerName={playerName}
           onViewLeaderboard={() => setPage("leaderboard")}
@@ -62,12 +109,15 @@ function App() {
           setShowResultPage={setShowResultPage}
           setLastScore={setLastScore}
           lastScore={lastScore}
+          quizData={quizData}
+          quizId={selectedQuizId}
         />
       )}
-
+      
       {page === "leaderboard" && (
         <LeaderboardPage
           isAdmin={isAdmin}
+          quizId={!isAdmin ? selectedQuizId : null}
           onBack={() => {
             if (isAdmin) {
               setIsAdmin(false);
@@ -77,6 +127,11 @@ function App() {
               setPage("quiz");
               setShowResultPage(true);
             }
+          }}
+          onReplay={() => {
+            setShowResultPage(false);
+            setLastScore(null);
+            setPage("quiz");
           }}
         />
       )}

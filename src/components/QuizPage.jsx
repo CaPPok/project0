@@ -1,8 +1,10 @@
-// src/components/QuizPage.jsx
+/*
+Giao diện khi thực hiện quiz
+*/
 import React, { useEffect, useState, useCallback, useRef } from "react";
-import quizData from "../data/quiz.json";
 import { collection, addDoc } from "firebase/firestore";
 import { db } from "../firebaseConfig";
+import "./QuizPage.css"
 /*
 1. currentIndex: chỉ số câu hỏi hiện tại
 2. selected: chỉ số đáp án mà player đã chọn (chưa chọn = null)
@@ -10,16 +12,18 @@ import { db } from "../firebaseConfig";
 4. showResult: cho biết kết quả
 5. timeLeft: thời gian đếm ngược
 6. hasSaved: cờ báo đã lưu
-
+7. quizData: lấy data của quiz dựa vào quizId
+8. quizId: ID của mỗi bộ câu hỏi
 */
 const QuizPage = ({
   playerName,
   onViewLeaderboard,
   showResultPage,
-  //setShowResultPage,
   setLastScore,
   lastScore,
-}) => {
+  quizData,
+  quizId,
+}) => { 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selected, setSelected] = useState(null);
   const [score, setScore] = useState(0);
@@ -88,6 +92,7 @@ const QuizPage = ({
           score,
           duration,
           time: new Date().toISOString(),
+          quizId,
         });
       };
       saveScore();
@@ -96,22 +101,22 @@ const QuizPage = ({
 
   if (showResult || showResultPage) {
     return (
-      <div className="quiz-container">
-        <h2 className="question-title">🎉 Hoàn thành quiz!</h2>
-        <p>
-          Điểm số của bạn, {playerName}:{" "}
-          <strong>
-            {lastScore}/{quizData.length * 20}
-          </strong>
-        </p>
+      <div className="question-container">
+        <div className="complete-quiz">
+          <h2 className="complete-text">🎉 Hoàn thành quiz!</h2>
+          <p>
+            Điểm số của bạn, {playerName}:{" "}
+            <strong>
+              {lastScore}/{quizData.length * 20}
+            </strong>
+          </p>
 
-        <button
-          className="option-button"
-          onClick={onViewLeaderboard}
-          style={{ marginTop: "20px" }}
-        >
-          📈 Xem bảng xếp hạng
-        </button>
+          <div style={{ display: "flex", gap: "10px", justifyContent: "center", marginTop: "20px" }}>
+            <button className="reviewBoard" onClick={onViewLeaderboard}>
+              📈 Xem bảng xếp hạng
+            </button>
+          </div>
+        </div>
       </div>
     );
   }
@@ -119,47 +124,51 @@ const QuizPage = ({
   return (
     <>
       <div className="absolute top-4 right-4 bg-white shadow-lg border border-gray-200 rounded-xl px-5 py-3 text-center">
-        <div className="text-gray-600 text-sm">
-          🎯 <strong>Điểm hiện tại</strong>
-        </div>
-        <div className="text-2xl font-bold text-blue-600">
-          <strong>{score}</strong>
+        <div className="question-score">
+          🎯 <strong>Điểm hiện tại: {score}</strong>
         </div>
       </div>
 
       {/*Hiển thị câu hỏi*/}
-      <div className="quiz-container">
-        <h1 className="question-title">
-          Câu {currentIndex + 1}/{quizData.length}
-        </h1>
-        <p>{currentQuestion.question}</p>
-        {/*Hiển thị các lựa chọn*/}
-        <div className="options-grid">
-          {currentQuestion.options.map((option, index) => {
-            let className = "option-button";
-            if (selected !== null) {
-              if (index === currentQuestion.answer) {
-                className += " correct";
-              } else if (index === selected) {
-                className += " incorrect";
-              }
-            }
+      <main className="question-wrapper">        
+        <div className="question-container">
+          <div>
+            <h1 className="question-number">
+              Câu {currentIndex + 1}/{quizData.length}
+            </h1>
+            <div className="question-text">
+              {currentQuestion.question}
+            </div>
+          </div>
 
-            // Hiển thị nút chọn đáp án
-            return (
-              <button
-                key={index}
-                className={className}
-                onClick={() => handleAnswer(index)}
-                disabled={selected !== null}
-              >
-                {option}
-              </button>
-            );
-          })}
+          {/*Hiển thị các lựa chọn*/}
+          <div className="options-grid">
+            {currentQuestion.options.map((option, index) => {
+              let className = "option-button";
+              if (selected !== null) {
+                if (index === currentQuestion.answer) {
+                  className += " correct";
+                } else if (index === selected) {
+                  className += " incorrect";
+                }
+              }
+
+              // Hiển thị nút chọn đáp án
+              return (
+                <button
+                  key={index}
+                  className={className}
+                  onClick={() => handleAnswer(index)}
+                  disabled={selected !== null}
+                >
+                  {option}
+                </button>
+              );
+            })}
+          </div>
+          <div className="timer">⏳ {timeLeft} giây</div>
         </div>
-        <div className="timer">⏳ {timeLeft} giây</div>
-      </div>
+      </main>
     </>
   );
 };

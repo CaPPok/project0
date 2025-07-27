@@ -1,0 +1,17 @@
+[
+  {
+    "question": "1 + 1 = ?",
+    "options": ["0", "1", "2", "3"],
+    "answer": 2
+  },
+  {
+    "question": "Câu nào sau đây ĐÚNG ?",
+    "options": ["A", "B", "C", "d"],
+    "answer": 3
+  },
+  {
+    "question": "Ngày mai có mưa không ?",
+    "options": ["Có", "Không", "Kó", "Yes"],
+    "answer": 1
+  }
+]

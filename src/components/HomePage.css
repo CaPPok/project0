@@ -1,0 +1,153 @@
+/*
+Đây là giao diện trang chủ sau khi đã đăng nhập (login)
+*/
+
+.home-container {
+  min-height: 100vh;
+  background-color: #ffffff;
+  color: #1f2937;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/*Thanh điều hướng*/
+.navbar {
+  width: 100vw;
+  background-color: #ffffff;
+  padding: 16px 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+  position: relative;
+  z-index: 10;
+}
+
+.navbar-title {
+  font-size: 20px;
+  font-weight: bold;
+  color: #3baaee;
+}
+
+.navbar-links {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.navbar-links a {
+  text-decoration: none;
+  background-color: #ffffff;
+  padding: 6px 12px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  color: #374151;
+}
+
+.navbar-links a:hover {
+  background-color: #f5f8f9;
+  transform: translateY(-2px);
+  box-shadow: 0 3px 7px rgba(0, 0, 0, 0.1);
+}
+
+/*Chuyển chế độ light-dark*/
+.theme-toggle {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+/*Hình đại diện người dùng*/
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 9999px;
+}
+
+/*Hiển thị các thẻ bộ câu hỏi (quiz card)*/
+.quiz-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  padding: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/*Giao diện từng bộ câu hỏi*/
+.quiz-card {
+  width: 300px;
+  height: 260px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  border: 1px solid #e5e7eb;
+}
+
+/*Giao diện khi lia chuột vào quiz card*/
+.quiz-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5);
+}
+
+/*Ảnh đại diện cho từng bộ câu hỏi*/
+.quiz-image {
+  width: 100%;
+  height: 100px;
+  object-fit: cover;
+}
+
+/*Phần nội dung trong quiz card*/
+.quiz-content {
+  padding: 20px;
+}
+
+/*Tiêu đề trong quiz card*/
+.quiz-title {
+  font-size: 30px;
+  font-weight: bold;
+  color: #111827;
+}
+
+/*Mô tả trong quiz card*/
+.quiz-description {
+  font-size: 20px;
+  color: #6b7280;
+  margin-top: 4px;
+}
+
+/*Tiến độ trong quiz card*/
+.quiz-progress {
+  margin-top: 4px;
+  font-size: 20px;
+  color: #3baaee;
+}
+
+/*Khung bọc các quiz card*/
+.quiz-wrapper {
+  padding: 24px;
+  max-width: 800px;
+  margin: 24px auto;
+  /* border: 2px solid #ffffff;
+  border-radius: 12px; */
+  /* background-color: #ffffff; */
+}
+
+/*Bố cục sắp xếp các quiz card*/
+.quiz-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.quiz-column {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}

@@ -1,0 +1,46 @@
+.leaderboard-container {
+  color: #1f2937;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.leaderboard-background {
+  font-size: 20px;
+  padding: 20px;
+  width: 600px;
+  height: 450px;
+  margin: 24px auto;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  background-color: #ffffff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  justify-content: center;
+}
+
+.leaderboard-title {
+  font-size: 30px;
+  color: #da8c07;
+  font-family: 'Segoe UI', sans-serif;
+  text-align: center;
+}
+
+.leaderboard-button-grid{
+  text-align: center;
+}
+
+.leaderboard-button {
+  width: 180px;
+  height: 80px;
+  padding: 12px 12px;
+  border-radius: 16px;
+  border: 1px solid #ffffff;
+  background-color: #ffffff;
+  cursor: pointer;
+  transition: background-color 0.1s;
+  font-size: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.leaderboard-button:hover {
+  background-color: #def4fb;
+  transform: translateY(-4px);
+}
