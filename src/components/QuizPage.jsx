@@ -67,7 +67,7 @@ const QuizPage = ({
   // Đếm ngược thời gian
   useEffect(() => {
     if (timeLeft > 0 && !selected) {
-      const timer = setTimeout(() => setTimeLeft((prev) => prev), 1000);
+      const timer = setTimeout(() => setTimeLeft((prev) => prev - 1), 1000);
       return () => clearTimeout(timer);
     }
 
