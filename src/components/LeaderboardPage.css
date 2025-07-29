@@ -1,46 +1,113 @@
 .leaderboard-container {
   color: #1f2937;
   font-family: 'Segoe UI', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;     
+  height: 100vh;          
 }
 
 .leaderboard-background {
-  font-size: 20px;
-  padding: 20px;
-  width: 600px;
-  height: 450px;
-  margin: 24px auto;
+  position: relative;
+  font-size: 1.3vw;
+  padding: 2vh 5vw 2vh 5vw;
+  width: 35vw;
+  height: 65vh;
   border: 1px solid #e5e7eb;
   border-radius: 12px;
   background-color: #ffffff;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  justify-content: center;
+  box-shadow: 0.3vw 0.7vh 0.5vw rgba(0, 0, 0, 0.1);
 }
 
 .leaderboard-title {
-  font-size: 30px;
+  font-size: 2vw;
   color: #da8c07;
   font-family: 'Segoe UI', sans-serif;
   text-align: center;
+  margin-bottom: 3vh;
 }
 
 .leaderboard-button-grid{
+  display: flex;
+  justify-content: center;
   text-align: center;
 }
 
 .leaderboard-button {
-  width: 180px;
-  height: 80px;
-  padding: 12px 12px;
-  border-radius: 16px;
-  border: 1px solid #ffffff;
+  position: absolute;
+  bottom: 3vh;
+  width: 10vw;
+  height: 8vh;
+  padding: 1vh 1vw;
+  border-radius: 1vw;
+  border: 0.1vw solid #ffffff;
   background-color: #ffffff;
   cursor: pointer;
   transition: background-color 0.1s;
-  font-size: 20px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  font-size: 1.3vw;
+  box-shadow: 0.3vw 0.7vh 0.5vw rgba(0, 0, 0, 0.2);
 }
 
 .leaderboard-button:hover {
   background-color: #def4fb;
-  transform: translateY(-4px);
+  transform: translateY(-1vh);
+}
+
+.leaderboard-admin-background {
+  position: relative;
+  margin-top: 7vh;
+  width: 25vw;
+  height: 30vh;
+  padding: 2vh 1vw;
+  background-color: #ffffff;
+  transition: background-color 0.1s;
+  box-shadow: 0.3vw 0.7vh 0.5vw rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+
+.leaderboard-admin-button {
+  position: absolute;
+  bottom: 2vh;
+  left: 5vw;
+  right: 5vw;
+  width: 15vw;
+  height: 8vh;
+  padding: 1vh 1vw;
+  border-radius: 1vw;
+  border: 0.1vw solid #ffffff;
+  background-color: #a0f6a3;
+  cursor: pointer;
+  font-size: 1.3vw;
+}
+
+.leaderboard-admin-button:hover {
+  background-color: #7eee82;
+  transform: translateY(-1vh);
+}
+
+.admin-chose {
+  text-align: center;
+  font-size: 2vw;
+}
+
+.admin-selector-label {
+  font-weight: bold;
+  font-size: 2vw;
+  color: #1f2937;
+  display: block;
+  margin-bottom: 2vh;
+}
+
+.admin-selector-dropdown {
+  padding: 1vh 1vw;
+  font-size: 1.5vw;
+  border: 0.1vw solid #ccc;
+  background-color: #fff;
+  color: #1f2937;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.admin-selector-dropdown:focus {
+  border-color: #2563eb; /* xanh dương đậm */
 }

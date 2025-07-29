@@ -67,7 +67,7 @@ const QuizPage = ({
   // Đếm ngược thời gian
   useEffect(() => {
     if (timeLeft > 0 && !selected) {
-      const timer = setTimeout(() => setTimeLeft((prev) => prev - 1), 1000);
+      const timer = setTimeout(() => setTimeLeft((prev) => prev), 1000);
       return () => clearTimeout(timer);
     }
 
@@ -102,19 +102,21 @@ const QuizPage = ({
   if (showResult || showResultPage) {
     return (
       <div className="question-container">
-        <div className="complete-quiz">
-          <h2 className="complete-text">🎉 Hoàn thành quiz!</h2>
-          <p>
-            Điểm số của bạn, {playerName}:{" "}
-            <strong>
-              {lastScore}/{quizData.length * 20}
-            </strong>
-          </p>
+        <div className="complete-quiz-grid">
+          <div className="complete-quiz">
+            <h2 className="complete-title">🎉 Hoàn thành quiz!</h2>
+            <p className="complete-text">
+              Điểm số của bạn, {playerName}:{" "}
+              <strong>
+                {lastScore}/{quizData.length * 20}
+              </strong>
+            </p>
 
-          <div style={{ display: "flex", gap: "10px", justifyContent: "center", marginTop: "20px" }}>
-            <button className="reviewBoard" onClick={onViewLeaderboard}>
-              📈 Xem bảng xếp hạng
-            </button>
+            <div>
+              <button className="reviewBoard" onClick={onViewLeaderboard}>
+                📈 Xem bảng xếp hạng
+              </button>
+            </div>
           </div>
         </div>
       </div>

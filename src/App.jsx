@@ -64,6 +64,7 @@ function App() {
             setShowResultPage(true);
           }
         }}
+        quizId={selectedQuizId}
       />
     );
   }

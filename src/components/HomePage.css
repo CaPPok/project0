@@ -2,8 +2,12 @@
 Đây là giao diện trang chủ sau khi đã đăng nhập (login)
 */
 
-.home-container {
-  min-height: 100vh;
+/*Giao diện cho laptop*/
+/*===========================================================================*/
+.home-container.laptop {
+  margin: 0px;
+  padding: 0px;
+  height: 100vh;
   background-color: #ffffff;
   color: #1f2937;
   font-family: 'Segoe UI', sans-serif;
@@ -33,6 +37,7 @@
   display: flex;
   align-items: center;
   gap: 20px;
+  cursor: pointer;
 }
 
 .navbar-links a {
@@ -150,4 +155,16 @@
   justify-content: space-between;
   gap: 20px;
   flex-wrap: wrap;
+}
+
+/*Giao diện cho mobile*/
+/*===========================================================================*/
+.home-container.mobile {
+  padding: 10px;
+}
+
+.quiz-card-mobile {
+  width: 90%;
+  margin: 10px auto;
+  font-size: 16px;
 }

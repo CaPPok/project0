@@ -1,0 +1,55 @@
+.admin-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  color: #1f2937;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.admin-background {
+  position: relative;
+  padding: 2vh 2vw;
+  height: 40vh;
+  width: 40vw;
+  background-color: #ffffff;
+  box-shadow: 0 1vh 1vw rgba(0, 0, 0, 0.5);
+  border: 0.1vw solid #e5e7eb;
+  border-radius: 1vw;
+}
+
+.admin-title {
+  text-align: center;
+  color: #1f2937;
+  font-size: 2.3vw
+}
+
+.admin-input {
+  width: 100%;
+  padding: 1.5vh 1vw;
+  font-size: 1.3vw;
+  border-radius: 1vw;
+  border: 0.1vw solid #ccc;
+  margin-top: 2vh;
+}
+
+.admin-button-grid{
+  text-align: center;  
+}
+
+.admin-button {
+  padding: 1.5vh 1vw;
+  font-size: 1.3vw;
+  border-radius: 1vw;
+  background-color: #ffffff;
+  color: #1f2937;
+  border: 0.1vw solid #ccc;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin: 3vh 1vw 0 1vw;
+}
+
+.admin-button:hover {
+  background-color: #f4f4f4;
+  transform: translateY(-1.3vh);
+}

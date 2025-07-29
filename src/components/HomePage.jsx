@@ -4,6 +4,7 @@
 
 import React from "react";
 import "./HomePage.css";
+import { useMediaQuery } from 'react-responsive';
 
 const quizzes = [
   {
@@ -21,8 +22,11 @@ const quizzes = [
 ];
 
 export default function HomePage({ onSelectQuiz, playerName, onLogout }) {
+  const isMobile = useMediaQuery({ maxWidth: 767 });
+
+
   return (
-    <div className="home-container">
+    <div className="home-container ${isMobile ? 'mobile' : 'laptop'}">
       {/*Thanh điều hướng*/}
       <nav className="navbar">
         <div className="navbar-title">Chào mừng, {playerName}</div>

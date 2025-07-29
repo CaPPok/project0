@@ -5,6 +5,7 @@ Chế độ Admin
 import React, { useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebaseConfig";
+import "./AdminLogin.css"
 
 const AdminLogin = ({ onLoginSuccess, onBack }) => {
   const [email, setEmail] = useState("");
@@ -31,31 +32,32 @@ const AdminLogin = ({ onLoginSuccess, onBack }) => {
   };
 
   return (
-    <div className="quiz-container">
-      <h2 className="question-title">Đăng nhập Admin</h2>
-      <input
-        type="email"
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        className="admin-input"
-      />
-      <input
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <button className="option-button" onClick={handleLogin}>
-        Đăng nhập
-      </button>
-      <button
-        className="option-button"
-        style={{ marginTop: "10px" }}
-        onClick={onBack}
-      >
-        Quay lại
-      </button>
+    <div className="admin-container">
+      <div className="admin-background">
+        <h2 className="admin-title">Đăng nhập Admin</h2>
+        <input
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          className="admin-input"
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          className="admin-input"
+        />
+        <div className="admin-button-grid">
+          <button className="admin-button" onClick={handleLogin}>
+            Đăng nhập
+          </button>
+          <button className="admin-button" onClick={onBack}>
+            Quay lại
+          </button>
+        </div>
+      </div>
     </div>
   );
 };
