@@ -23,6 +23,7 @@ const QuizPage = ({
   lastScore,
   quizData,
   quizId,
+  
 }) => { 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selected, setSelected] = useState(null);

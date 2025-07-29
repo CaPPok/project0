@@ -21,7 +21,7 @@ const quizzes = [
   },
 ];
 
-export default function HomePage({ onSelectQuiz, playerName, onLogout }) {
+export default function HomePage({ onSelectQuiz, playerName, onLogout, onGratitute }) {
   const isMobile = useMediaQuery({ maxWidth: 767 });
 
 
@@ -32,8 +32,8 @@ export default function HomePage({ onSelectQuiz, playerName, onLogout }) {
         <div className="navbar-title">Chào mừng, {playerName}</div>
         <div className="navbar-links">
           <a href="#">Minigame</a>
-          <a href="#">Gửi lời tri ân</a>
-          <a onClick={onLogout}>Đăng suất</a>
+          <a onClick={onGratitute}>Gửi lời tri ân</a>
+          <a onClick={onLogout}>Đăng xuất</a>
           <button
             onClick={() => alert("Chức năng chuyển theme")}
             className="theme-toggle"

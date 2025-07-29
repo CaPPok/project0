@@ -5,6 +5,7 @@ import LeaderboardPage from "./components/LeaderboardPage";
 import AdminLogin from "./components/AdminLogin";
 import HomePage from "./components/HomePage";
 import "./App.css";
+import Message from "./components/Message";
 
 function App() {
   const [playerName, setPlayerName] = useState("");
@@ -44,6 +45,7 @@ function App() {
       const data = await import(`./data/${quizId}.json`);
       setQuizData(data.default);
       setSelectedQuizId(quizId);
+      setShowResultPage(false);
       setPage("quiz");
     } catch (error) {
       alert("Không thể tải dữ liệu quiz.");
@@ -99,6 +101,9 @@ function App() {
             setLastScore(null);
             setPage("login");
           }}
+          onGratitute={() => {
+            setPage("message");
+          }}
         />
       )}
 
@@ -114,7 +119,7 @@ function App() {
           quizId={selectedQuizId}
         />
       )}
-      
+
       {page === "leaderboard" && (
         <LeaderboardPage
           isAdmin={isAdmin}
@@ -133,6 +138,14 @@ function App() {
             setShowResultPage(false);
             setLastScore(null);
             setPage("quiz");
+          }}
+        />
+      )}
+      {page === "message" && (
+        <Message
+          playerName={playerName}
+          onBack={() => {
+            setPage("home");
           }}
         />
       )}
