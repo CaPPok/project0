@@ -4,7 +4,7 @@ Giao diện khi thực hiện quiz
 import React, { useEffect, useState, useCallback, useRef } from "react";
 import { collection, addDoc } from "firebase/firestore";
 import { db } from "../firebaseConfig";
-import "./QuizPage.css"
+import "./QuizPage.css";
 /*
 1. currentIndex: chỉ số câu hỏi hiện tại
 2. selected: chỉ số đáp án mà player đã chọn (chưa chọn = null)
@@ -23,8 +23,8 @@ const QuizPage = ({
   lastScore,
   quizData,
   quizId,
-  
-}) => { 
+  setQuizStatus,
+}) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selected, setSelected] = useState(null);
   const [score, setScore] = useState(0);
@@ -83,6 +83,13 @@ const QuizPage = ({
       hasSaved.current = true;
       //Lưu điểm lại để khôi phục trang kết quả
       setLastScore(score);
+      setQuizStatus((prev) => ({
+        ...prev,
+        [quizId]: {
+          score: score,
+          done: true,
+        },
+      }));
       //Tính thời gian làm bài
       const endTime = new Date();
       const duration = endTime - startTime.current;
@@ -133,15 +140,13 @@ const QuizPage = ({
       </div>
 
       {/*Hiển thị câu hỏi*/}
-      <main className="question-wrapper">        
+      <main className="question-wrapper">
         <div className="question-container">
           <div>
             <h1 className="question-number">
               Câu {currentIndex + 1}/{quizData.length}
             </h1>
-            <div className="question-text">
-              {currentQuestion.question}
-            </div>
+            <div className="question-text">{currentQuestion.question}</div>
           </div>
 
           {/*Hiển thị các lựa chọn*/}

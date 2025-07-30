@@ -14,6 +14,7 @@ function App() {
   const [lastScore, setLastScore] = useState(null);
   const [selectedQuizId, setSelectedQuizId] = useState(null);
   const [quizData, setQuizData] = useState(null);
+  const [quizStatus, setQuizStatus] = useState({});
 
   //Biến dành cho admin login
   const [page, setPage] = useState("login");
@@ -41,6 +42,12 @@ function App() {
   };
 
   const handleSelectQuiz = async (quizId) => {
+    const status = quizStatus[quizId];
+    if (status?.done) {
+      setSelectedQuizId(quizId);
+      setPage("leaderboard");
+      return;
+    }
     try {
       const data = await import(`./data/${quizId}.json`);
       setQuizData(data.default);
@@ -99,11 +106,13 @@ function App() {
             setSelectedQuizId(null);
             setShowResultPage(false);
             setLastScore(null);
+            setQuizStatus({});
             setPage("login");
           }}
           onGratitute={() => {
             setPage("message");
           }}
+          quizStatus={quizStatus}
         />
       )}
 
@@ -117,6 +126,7 @@ function App() {
           lastScore={lastScore}
           quizData={quizData}
           quizId={selectedQuizId}
+          setQuizStatus={setQuizStatus}
         />
       )}
 

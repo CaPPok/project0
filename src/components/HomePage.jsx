@@ -4,7 +4,7 @@
 
 import React from "react";
 import "./HomePage.css";
-import { useMediaQuery } from 'react-responsive';
+import { useMediaQuery } from "react-responsive";
 
 const quizzes = [
   {
@@ -21,9 +21,14 @@ const quizzes = [
   },
 ];
 
-export default function HomePage({ onSelectQuiz, playerName, onLogout, onGratitute }) {
+export default function HomePage({
+  onSelectQuiz,
+  playerName,
+  onLogout,
+  onGratitute,
+  quizStatus,
+}) {
   const isMobile = useMediaQuery({ maxWidth: 767 });
-
 
   return (
     <div className="home-container ${isMobile ? 'mobile' : 'laptop'}">
@@ -54,15 +59,15 @@ export default function HomePage({ onSelectQuiz, playerName, onLogout, onGratitu
               className="quiz-card"
               onClick={() => onSelectQuiz(quiz.id)}
             >
-              <img
-                src={quiz.image}
-                alt={quiz.title}
-                className="quiz-image"
-              />
+              <img src={quiz.image} alt={quiz.title} className="quiz-image" />
               <div className="quiz-content">
                 <h0 className="quiz-title">{quiz.title}</h0>
                 <p className="quiz-description">{quiz.description}</p>
-                <div className="quiz-progress">Điểm hiện tại:</div>
+                <div className="quiz-progress">
+                  {quizStatus?.[quiz.id]?.done
+                    ? `Điểm đạt được: ${quizStatus[quiz.id].score}`
+                    : "Chưa làm bài"}
+                </div>
               </div>
             </div>
           ))}
