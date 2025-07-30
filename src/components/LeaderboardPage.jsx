@@ -24,8 +24,10 @@ const LeaderboardPage = ({ isAdmin, onBack, quizId }) => {
   const quizzes = [
     { id: "quiz1", title: "Bộ câu hỏi số 1" },
     { id: "quiz2", title: "Bộ câu hỏi số 2" },
+    { id: "message", title: "Lời chúc" },
   ];
 
+  //Lấy top 10 hiển thị trong user mode
   useEffect(() => {
     const fetchTop10 = async () => {
       try {
@@ -51,15 +53,26 @@ const LeaderboardPage = ({ isAdmin, onBack, quizId }) => {
     const fetchFullLeaderboard = async () => {
       try {
         setLoading(true);
-        const q = query(
-          collection(db, "leaderboard"),
-          where("quizId", "==", selectedQuiz),
-          orderBy("score", "desc"),
-          orderBy("duration", "asc")
-        );
-        const snapshot = await getDocs(q);
-        const data = snapshot.docs.map((doc) => doc.data());
-        setFullEntries(data);
+        if (selectedQuiz === "message") {
+          const q = query(
+            collection(db, "leaderboard"),
+            where("quizId", "==", selectedQuiz),
+            orderBy("time", "asc")
+          );
+          const snapshot = await getDocs(q);
+          const data = snapshot.docs.map((doc) => doc.data());
+          setFullEntries(data);
+        } else {
+          const q = query(
+            collection(db, "leaderboard"),
+            where("quizId", "==", selectedQuiz),
+            orderBy("score", "desc"),
+            orderBy("duration", "asc")
+          );
+          const snapshot = await getDocs(q);
+          const data = snapshot.docs.map((doc) => doc.data());
+          setFullEntries(data);
+        }
       } catch (error) {
         alert(error);
       } finally {
@@ -71,26 +84,42 @@ const LeaderboardPage = ({ isAdmin, onBack, quizId }) => {
   }, [selectedQuiz]);
 
   const handleExport = () => {
-    const worksheetData = fullentries.map((entry, index) => ({
-      STT: index + 1,
-      Tên: entry.name,
-      Điểm: entry.score,
-      Thời_Gian_Hoàn_Thành: entry.duration,
-      Thời_Gian_Nộp: new Date(entry.time).toLocaleString(),
-    }));
+    if (selectedQuiz === "message") {
+      const worksheetData = fullentries.map((entry, index) => ({
+        STT: index + 1,
+        Tên: entry.name,
+        Lời_chúc: entry.message,
+        Thời_Gian_Nộp: new Date(entry.time).toLocaleString(),
+      }));
+      const worksheet = XLSX.utils.json_to_sheet(worksheetData);
+      const workbook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(workbook, worksheet, "Bảng Xếp Hạng");
 
-    const worksheet = XLSX.utils.json_to_sheet(worksheetData);
-    const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, "Bảng Xếp Hạng");
+      const fileName = `Danh_sach_loi_chuc.xlsx`;
+      XLSX.writeFile(workbook, fileName);
+    } else {
+      const worksheetData = fullentries.map((entry, index) => ({
+        STT: index + 1,
+        Tên: entry.name,
+        Điểm: entry.score,
+        Thời_Gian_Hoàn_Thành: entry.duration,
+        Thời_Gian_Nộp: new Date(entry.time).toLocaleString(),
+      }));
+      const worksheet = XLSX.utils.json_to_sheet(worksheetData);
+      const workbook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(workbook, worksheet, "Bảng Xếp Hạng");
 
-    const fileName = `Bang_xep_hang_${selectedQuiz}.xlsx`;
-    XLSX.writeFile(workbook, fileName);
+      const fileName = `Bang_xep_hang_${selectedQuiz}.xlsx`;
+      XLSX.writeFile(workbook, fileName);
+    }
   };
 
   return (
     <div className="leaderboard-container">
       <div className="leaderboard-background">
-        <h2 className="leaderboard-title">🏆 Bảng xếp hạng top 10</h2>
+        <h2 className="leaderboard-title">
+          {isAdmin ? "📊 Xuất file Excel" : "🏆 Bảng xếp hạng top 10"}
+        </h2>
 
         {isAdmin && (
           <div className="leaderboard-admin-background">
@@ -139,10 +168,7 @@ const LeaderboardPage = ({ isAdmin, onBack, quizId }) => {
           ))}
 
         <div className="leaderboard-button-grid">
-          <button
-            className="leaderboard-button"
-            onClick={onBack}
-          >
+          <button className="leaderboard-button" onClick={onBack}>
             ⬅ Quay lại
           </button>
         </div>
@@ -152,4 +178,3 @@ const LeaderboardPage = ({ isAdmin, onBack, quizId }) => {
 };
 
 export default LeaderboardPage;
-
