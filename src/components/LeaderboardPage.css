@@ -19,6 +19,10 @@
   box-shadow: 0.3vw 0.7vh 0.5vw rgba(0, 0, 0, 0.1);
 }
 
+.leaderboard-text {
+  text-align: center;
+}
+
 .leaderboard-title {
   font-size: 2vw;
   color: #da8c07;

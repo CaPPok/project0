@@ -12,7 +12,6 @@ const Message = ({ onBack, playerName }) => {
   const [selected, setSelected] = useState(null);
   const editorRef = useRef(null); // Sử dụng để tạo khung văn bản dựa vào thư viện quill
   const quillRef = useRef(null); // Sử dụng để tạo khung văn bản dựa vào thư viện quill
-  const [previousText, setPreviousText] = useState(""); // Lưu mẫu câu trước khi random
   const [currentText, setCurrentText] = useState("");   // Theo dõi mẫu câu hiện tại
 
   // Tạo khung văn bản
@@ -41,19 +40,9 @@ const Message = ({ onBack, playerName }) => {
     const randomIndex = Math.floor(Math.random() * suggestions.length);
     const randomText = suggestions[randomIndex];
 
-    setPreviousText(currentText); // lưu lại trước khi random
     setCurrentText(randomText);   // lưu cái mới để theo dõi
 
     quill.setText(randomText); // gán vào khung nhập
-  };
-
-  const handleUndo = () => {
-    const quill = quillRef.current;
-    if (!quill || !previousText) return;
-
-    setCurrentText(previousText); // quay lại câu trước
-    setPreviousText("");          // reset lại
-    quill.setText(previousText);
   };
 
   const handleSubmit = async () => {
@@ -113,8 +102,7 @@ const Message = ({ onBack, playerName }) => {
         />
 
         <div className="choices-grid">
-          <button className="choice-button" onClick={handleRandom}>Ngẫu nhiên</button>
-          <button className="choice-button" onClick={handleUndo}>Đổi lại</button>
+          <button className="choice-button" onClick={handleRandom}>Gợi ý lời nhắn</button>
         </div>
 
         <button

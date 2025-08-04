@@ -121,7 +121,7 @@
   border-radius: 1vw;
   border: 0.1vw solid #ffffff;
   background-color: #ffffff;
-  transition: background-color 0.1s;
+  transition: all 0.3s ease;
   font-size: 1.5vw;
   box-shadow: 0.1vw 0.7vh 1vw rgba(0, 0, 0, 0.2);
 }

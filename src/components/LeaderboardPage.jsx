@@ -109,6 +109,13 @@ const LeaderboardPage = ({ isAdmin, onBack, quizId }) => {
 
   const handleExport = () => {
     if (selectedQuiz === "message") {
+      // Giữ nguyên các định dạng văn bản của người dùng rồi xuất ra file      
+      /* Lập bảng trong Excel:
+      1. Cột 1: STT
+      2. Cột 2: Tên người gửi
+      3. Cột 3: Lời nhắn (hàm cleanHTML để xử lý dòng trống)
+      4. Cột 4: Thời gian (hàm formatDateCustom để định dạng hiển thị)
+      */
       const htmlRows = fullentries.map((entry, index) => `
         <tr>
           <td>${index + 1}</td>
@@ -117,7 +124,10 @@ const LeaderboardPage = ({ isAdmin, onBack, quizId }) => {
           <td>${formatDateCustom(entry.time)}</td>
         </tr>
       `).join("");
-
+      
+      /*
+      Tạo file html để chứa bảng dữ liệu
+      */
       const html = `
         <html>
         <head>
@@ -145,7 +155,8 @@ const LeaderboardPage = ({ isAdmin, onBack, quizId }) => {
         </html>
       `;
 
-      const blob = new Blob([html], { type: "application/vnd.ms-excel" });
+      // Xuất thành file .xlsx với định dạng Excel
+      const blob = new Blob([html], { type: "application/vnd.ms-excel" }); // Excel có thể mở file này như bảng tính.
       const link = document.createElement("a");
       link.href = URL.createObjectURL(blob);
       link.download = "Danh_sach_loi_chuc.xls";
@@ -210,7 +221,7 @@ const LeaderboardPage = ({ isAdmin, onBack, quizId }) => {
 
         {!isAdmin &&
           (entries.length === 0 ? (
-            <p>Vui lòng chờ trong giây lát!</p>
+            <div style={{textAlign: "center"}}>Vui lòng chờ trong giây lát!</div>
           ) : (
             <ul>
               {entries.map((entry, index) => (
