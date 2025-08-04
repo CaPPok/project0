@@ -73,7 +73,7 @@
   border-right: 2px solid #4A90E2;
   background-color: #ffffff;
   cursor: pointer;
-  transition: background-color 0.1s;
+  transition: all 0.3s ease;
   font-size: 20px;
   box-shadow: 0 3px 3px rgba(0, 0, 0, 0.3);
 }
@@ -144,7 +144,7 @@
   border: 0.1vw solid #ffffff;
   background-color: #ffffff;
   cursor: pointer;
-  transition: background-color 0.1s;
+  transition: all 0.3s ease;
   font-size: 1.3vw;
   box-shadow: 0.1vw 0.7vh 1vw rgba(0, 0, 0, 0.1);
 }

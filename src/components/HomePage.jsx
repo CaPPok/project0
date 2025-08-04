@@ -10,7 +10,7 @@ const quizzes = [
   {
     id: "quiz1",
     title: "Bộ câu hỏi số 1",
-    description: "Trắc nghiệm kiến thức cơ bản",
+    description: "Trắc nghiệm cơ bản",
     image: "/img_quiz1.jpg",
   },
   {

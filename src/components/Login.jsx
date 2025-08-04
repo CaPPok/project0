@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./Login.css"
 import { useMediaQuery } from 'react-responsive';
-// import { signInWithEmailAndPassword } from "firebase/auth";
-// import { auth } from "../firebaseConfig";
-//import React, { useEffect, useRef } from "react";
+
 
 //name: biến tên 
 //showRules: biến dùng để ẩn/hiện bảng luật chơi
@@ -12,6 +10,7 @@ const Login = ({ onStart }) => {
   const [name, setName] = useState("");
   const [showRules, setShowRules] = useState(false);
   const [showInst, setShowInst] = useState(false);
+  const [isTransitioning, setIsTransitioning] = useState(false); // chặn click trong quá trình transition
 
   // Thêm màu nền chỉ riêng trang Login
   useEffect(() => {
@@ -27,7 +26,55 @@ const Login = ({ onStart }) => {
 
     onStart(name);
   };
-  const isMobile = useMediaQuery({ maxWidth: 767 });
+
+  // Kiểm soát mở-đóng khung luật chơi và giới thiệu
+  const toggleDrawer = (target) => {
+    if (isTransitioning) return; // chặn bấm khi đang transition
+    setIsTransitioning(true);
+
+    if (target === "rules") {
+      if (showInst) {
+        // Đang mở inst, đóng lại trước
+        setShowInst(false);
+        setTimeout(() => {
+          setShowRules(true);
+          setIsTransitioning(false);
+        }, 500);
+      } else {
+        setShowRules(prev => {
+          if (prev) {
+            setIsTransitioning(false); // đóng đi
+          } else {
+            setTimeout(() => setIsTransitioning(false), 500);
+          }
+          return !prev;
+        });
+      }
+    }
+
+    if (target === "inst") {
+      if (showRules) {
+        // Đang mở rules, đóng lại trước
+        setShowRules(false);
+        setTimeout(() => {
+          setShowInst(true);
+          setIsTransitioning(false);
+        }, 500);
+      } else {
+        setShowInst(prev => {
+          if (prev) {
+            setIsTransitioning(false); // đóng đi
+          } else {
+            setTimeout(() => setIsTransitioning(false), 500);
+          }
+          return !prev;
+        });
+      }
+    }
+  };
+
+
+  const isMobile = useMediaQuery({ maxWidth: 767 }); // cái này phải được trước liền kề return;
 
   return (
     <div className={`login-container ${isMobile ? 'mobile' : 'laptop'}`}>
@@ -53,13 +100,13 @@ const Login = ({ onStart }) => {
           </button>
           <button
             className={`rules-toggle-button ${isMobile ? 'mobile' : 'laptop'}`}
-            onClick={() => setShowRules(!showRules)}
+            onClick={() => toggleDrawer("rules")}
           >
             Luật chơi
           </button>
           <button
             className={`inst-toggle-button ${isMobile ? 'mobile' : 'laptop'}`}
-            onClick={() => setShowInst(!showInst)}
+            onClick={() => toggleDrawer("inst")}
           >
             Giới thiệu
           </button>
@@ -67,7 +114,19 @@ const Login = ({ onStart }) => {
       </div>
 
       <div className={`login-right ${isMobile ? 'mobile' : 'laptop'}`}>
-        <img src="img-login.png" alt="Trường Quân sự Quân khu 7" />
+        <div className={`img-transition ${isMobile ? 'mobile' : 'laptop'}`}>
+          <div className={`img-transition-track ${isMobile ? 'mobile' : 'laptop'}`}>
+            <img src="img-login-1.png"/>
+            <img src="img-login-2.jpg"/>
+            <img src="img-login-3.jpg"/>
+            <img src="img-login-4.jpg"/>
+            {/* clone ảnh */}
+            <img src="img-login-1.png"/>
+            <img src="img-login-2.jpg"/>
+            <img src="img-login-3.jpg"/>
+            <img src="img-login-4.jpg"/>
+          </div>
+        </div>
       </div>
 
       {/* Khung luật chơi trượt từ dưới lên */}

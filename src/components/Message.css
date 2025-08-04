@@ -1,0 +1,79 @@
+.mess-container {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+  height: 100vh;
+  color: #1f2937;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #ffffff;
+}
+
+.ql-editor {
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 1vw;
+}
+
+.mess-background {
+  position: relative;
+  background-color: #ffffff;
+  height: 70vh;
+  width: 50vw;
+  padding: 2vh 1vw;
+  border-radius: 1vw;
+  box-shadow: 0 0 1vw rgba(0, 0, 0, 0.1);
+}
+
+.mess-title {
+  font-size: 2.8vw;
+  color: #3baaee;
+  font-weight: bold;
+  margin-bottom: 2vh;
+}
+
+.mess-text {
+  font-size: 2vw;
+}
+
+.mess-button {
+  height: 7vh;
+  width: 7vw;
+  padding: 1.5vh 1vw;
+  font-size: 1.3vw;
+  border-radius: 1vw;
+  background-color: #ffffff;
+  color: #1f2937;
+  border: 0.1vw solid #ffffff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin: 3vh 1vw 0 1vw;
+  box-shadow: 0.1vw 0.3vh 0.1vw #78cbff,
+              -0.05vw -0.15vh 0.1vw #78cbff;
+}
+
+.mess-button:hover {
+  background-color: #e5f5ff;
+  transform: translateY(-1vh);
+}
+
+.choices-grid {
+  display: flex;
+  justify-content: "flex-start";
+}
+
+.choice-button {
+  font-size: 1vw;
+  padding: 1vh 1vw;
+  background-color: #60a5fa;
+  margin: 0 0.5vw 0 0;
+  border: none;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.choice-button:hover {
+  background-color: #3b82f6;
+  transform: translateY(-0.5vh);
+}

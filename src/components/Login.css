@@ -1,5 +1,6 @@
 body.login-background {
   background-color: #ffffff;
+  overflow: hidden;
 }
 
 /*Giao diện cho laptop*/
@@ -76,17 +77,38 @@ body.login-background {
 
 /* Bên phải - hình ảnh */
 .login-right.laptop {
-  background-color: #3baaee;
-  padding: 0 0 2vh 2vh;
-  margin: 0 0 15vh 0;
-  border-bottom-left-radius: 60vh;
+  padding: 0 1vw 4vh 1vw;
+  margin: 0 0 15vh 5vw;
   box-shadow: -0.1vw 0.9vh 1vw rgba(0, 0, 0, 0.4);
+  background-color: #ffffff;
 }
 
 .login-right.laptop img {
-  max-width: 100vw;
-  height: 80vh;
+  position: relative;
+  height: 100vh; /* Hoặc vừa đủ 1 ảnh */
+  overflow: hidden; /* Cắt ảnh khi trượt */
+  border: 0.5vw solid #ffffff;
+  height: 50vh;
+  width: 40vw;
   object-fit: cover;
+  margin-bottom: 2vh;
+  box-shadow: -0.4vw 0.8vh 0.3vw rgba(0, 0, 0, 0.3);
+}
+
+/* Tạo hiệu ứng chuyển hình ảnh*/
+.img-transition {
+  position: relative;
+}
+
+.img-transition-track {
+  display: flex;
+  flex-direction: column;
+  animation: scrollLoop 16s linear infinite;
+}
+
+@keyframes scrollLoop {
+  0%   { transform: translateY(0); }
+  100% { transform: translateY(-208vh); }
 }
 
 /*Cuối trang*/
@@ -96,7 +118,7 @@ body.login-background {
   left: 0;
   width: 100vw;
   height: 20vh; /* bạn có thể thay đổi chiều cao nếu muốn */
-  background-color: #3baaee;
+  background: linear-gradient(to right, #81bde2, #69b8ea ,#3baaee);
   z-index: 0;
   box-shadow: 0 -0.5vh 1vw rgba(0, 0, 0, 0.3);
 }

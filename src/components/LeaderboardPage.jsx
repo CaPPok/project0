@@ -83,20 +83,75 @@ const LeaderboardPage = ({ isAdmin, onBack, quizId }) => {
     fetchFullLeaderboard();
   }, [selectedQuiz]);
 
+  // Hàm xóa dòng trống trong file .xlsx mỗi khi người dùng xuống dòng
+  const cleanHTML = (html) => {
+    if (!html) return "";
+    return html
+      .replace(/<p><br><\/p>/g, "")
+      .replace(/<p>(.*?)<\/p>/g, "$1<br>")
+      .replace(/<br>\s*<br>/g, "<br>");
+  };
+
+  // Hàm định dạng hiển thị thời gian
+  const formatDateCustom = (isoString) => {
+    const date = new Date(isoString);
+    const pad = (n) => n.toString().padStart(2, "0");
+
+    const hours = pad(date.getHours());
+    const minutes = pad(date.getMinutes());
+    const seconds = pad(date.getSeconds());
+    const day = date.getDate();
+    const month = date.getMonth() + 1;
+    const year = date.getFullYear();
+
+    return `${hours}:${minutes}:${seconds} ${day}/${month}/${year}`;
+  };
+
   const handleExport = () => {
     if (selectedQuiz === "message") {
-      const worksheetData = fullentries.map((entry, index) => ({
-        STT: index + 1,
-        Tên: entry.name,
-        Lời_chúc: entry.message,
-        Thời_Gian_Nộp: new Date(entry.time).toLocaleString(),
-      }));
-      const worksheet = XLSX.utils.json_to_sheet(worksheetData);
-      const workbook = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(workbook, worksheet, "Bảng Xếp Hạng");
+      const htmlRows = fullentries.map((entry, index) => `
+        <tr>
+          <td>${index + 1}</td>
+          <td>${entry.name}</td>
+          <td>${cleanHTML(entry.message)}</td>
+          <td>${formatDateCustom(entry.time)}</td>
+        </tr>
+      `).join("");
 
-      const fileName = `Danh_sach_loi_chuc.xlsx`;
-      XLSX.writeFile(workbook, fileName);
+      const html = `
+        <html>
+        <head>
+          <meta charset="UTF-8">
+          <style>
+            table { border-collapse: collapse; width: 100%; }
+            th, td { border: 1px solid #888; padding: 8px; vertical-align: top; }
+          </style>
+        </head>
+        <body>
+          <table>
+            <thead>
+              <tr>
+                <th>STT</th>
+                <th>Tên</th>
+                <th>Lời chúc</th>
+                <th>Thời gian nộp</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${htmlRows}
+            </tbody>
+          </table>
+        </body>
+        </html>
+      `;
+
+      const blob = new Blob([html], { type: "application/vnd.ms-excel" });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = "Danh_sach_loi_chuc.xls";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
     } else {
       const worksheetData = fullentries.map((entry, index) => ({
         STT: index + 1,
