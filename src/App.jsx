@@ -6,6 +6,7 @@ import AdminLogin from "./components/AdminLogin";
 import HomePage from "./components/HomePage";
 import "./App.css";
 import Message from "./components/Message";
+import MiniGame from "./components/MiniGame";
 
 function App() {
   const [playerName, setPlayerName] = useState("");
@@ -112,6 +113,9 @@ function App() {
           onGratitute={() => {
             setPage("message");
           }}
+          onMiniGame={() => {
+            setPage("minigame");
+          }}
           quizStatus={quizStatus}
         />
       )}
@@ -158,6 +162,13 @@ function App() {
             setPage("home");
           }}
         />
+      )}
+      {page === "minigame" && (
+        <MiniGame
+          onBack={() => {
+            setPage("home");
+          }}
+        ></MiniGame>
       )}
     </div>
   );

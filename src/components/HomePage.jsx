@@ -10,7 +10,7 @@ const quizzes = [
   {
     id: "quiz1",
     title: "Bộ câu hỏi số 1",
-    description: "Trắc nghiệm cơ bản",
+    description: "Trắc nghiệm kiến thức cơ bản",
     image: "/img_quiz1.jpg",
   },
   {
@@ -26,6 +26,7 @@ export default function HomePage({
   playerName,
   onLogout,
   onGratitute,
+  onMiniGame,
   quizStatus,
 }) {
   const isMobile = useMediaQuery({ maxWidth: 767 });
@@ -36,7 +37,7 @@ export default function HomePage({
       <nav className="navbar">
         <div className="navbar-title">Chào mừng, {playerName}</div>
         <div className="navbar-links">
-          <a href="#">Minigame</a>
+          <a onClick={onMiniGame}>Minigame</a>
           <a onClick={onGratitute}>Gửi lời tri ân</a>
           <a onClick={onLogout}>Đăng xuất</a>
           <button

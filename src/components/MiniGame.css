@@ -1,0 +1,14 @@
+.item-panel {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 200px;
+  height: 100vh;
+  background-color: #f1f5f9;
+  padding: 16px;
+  box-shadow: 2px 0 4px rgba(0, 0, 0, 0.1);
+  font-family: 'Segoe UI', sans-serif;
+  color: #1f2937;
+  overflow-y: auto;
+  z-index: 10; /* Đảm bảo không bị đè */
+}
