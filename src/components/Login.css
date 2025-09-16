@@ -1,243 +1,173 @@
-body.login-background {
-  background-color: #ffffff;
-  overflow: hidden;
-}
-
-/*Giao diện cho laptop*/
+/* Giao diện cho laptop */
 /*===========================================================================*/
 .login-container.laptop {
+  margin: 0px;
+  padding: 0px;
+  height: 100vh;
+  color: #ffffff;
+  font-family: 'Be Vietnam Pro', sans-serif;
+  overflow: hidden;
+  position: relative;
+}
+
+.login-navbar.laptop {
   display: flex;
   justify-content: space-between;
-  /* align-items: center; */
-  height: 100vh;
-  box-sizing: border-box;
-  font-family: 'Segoe UI', sans-serif;
+  align-items: center;
+  padding: 4vh 4vw;
 }
 
-/* Bên trái - phần nhập tên + luật chơi */
-.login-left.laptop {
-  flex: 1;
-  padding-right: 5vw;
+.login-navbar-title.laptop {
+  font-size: 2vw;
+  font-weight: bold;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
 }
 
-.login-title.laptop {
-  text-align: left;
+.login-navbar-links.laptop {
+  font-size: 1.3vw;
+  font-weight: 100; 
+  display: flex;
+  align-items: center;
+  gap: 4vw;
+}
+
+.login-navbar-links.laptop a {
+  position: relative;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  padding: 0.5vh 0.5vw;
+  border: 0.1vw solid transparent;
+  text-shadow: 0.2vw 0.2vh 0.2vw #000000;
+}
+
+.login-navbar-links.laptop a::after {
+  content: "";
+  position: absolute;
+  bottom: 0; 
+  left: 0;
+  width: 100%;
+  height: 1%;
+  background: white;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+
+.login-navbar-links.laptop a.active::after {
+  transform: scaleX(1);
+}
+
+.login-tab-content {
+  position: absolute;
+  right: 0;
+  top: 25vh;
+  padding: 3vh 2.5vw;
+  width: 37vw;
+  height: 50vh;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.login-tab-box h2 {
   font-size: 3vw;
-  color: #3baaee;
-  font-family: 'Segoe UI', sans-serif;
-  margin: 5vh 0 2vh 7vw;  /*top right bottom left*/
+  font-weight: 800;
+  margin-bottom: 4vh;
 }
 
-.login-decription.laptop {
-  text-align: left;
-  font-size: 1.5vw;
-  color: #5a91b3;
-  font-family: 'Segoe UI', sans-serif;
-  margin: 0 0 3vh 7.5vw;
+.login-tab-box p {
+  font-size: 1.2vw;
+  font-weight: 100;
+  margin-bottom: 1vh;
 }
 
-.login-input.laptop {
-  width: 36vw;
-  padding: 0.7vw;
-  font-size: 1.3vw;
-  border-radius: 1vw;
-  border: 0.1vw solid #ccc;
-  margin: 0 0 0 7vw;
-}
-
-.login-button-grid.laptop {
-  text-align: left;
-}
-
-.login-button.laptop {
-  padding: 2vh 2vw;
-  margin: 3vh 0 0 7vw;
-  font-size: 1.3vw;
-  border-radius: 1vw;
-  background-color: #3baaee;
-  color: white;
+.login-tab-box input {
+  font-size: 1.4vw;
+  font-weight: 400;
+  color: #ffffff;
+  width: 80%;
+  height: 5vh;
   border: none;
+  box-shadow: inset 0 -0.5px 0 0 #ffffff;
+  background: transparent;
+  outline: none;
+  margin-bottom: 4vh;
+}
+
+.login-tab-box input::placeholder {
+  font-size: 1.2vw;
+  font-weight: 400;
+  color: #ffffff;
+  opacity: 0.5;
+}
+
+.login-tab-box button {
+  width: 15vw;
+  font-size: 1.3vw;
+  font-weight: 600;
+  padding: 2vh 1vw;
+  border: none;
+  background: white;
+  color: black;
+  border-radius: 0.5vw;
   cursor: pointer;
-  transition: all 0.3s ease;
 }
 
-.login-button.laptop:hover {
-  transform: translateY(-0.8vh);
+.login-tab-box button:hover {
+  transition: all 0.5s ease;  
 }
 
-.login-button.laptop:disabled {
-  background-color: #afdffd;
+.login-tab-box button:hover:enabled {
+  background-color: #cbcbcb;
+  transform: translateY(-0.5vh);
+  box-shadow: 0.2vh 0.2vw 0.5vw rgba(0, 0, 0, 1);
+}
+
+.login-tab-box button:disabled {
+  background-color: #ffffff;
+  opacity: 0.5;
   cursor: not-allowed;
 }
 
-.login-button.laptop:hover:enabled {
-  background-color: #258ccc;
-  transform: translateY(-1.5vh);
+.login-tab-box-triangle {
+  width: 0;
+  height: 0;
+  border-top: 0.5vw solid transparent;     /* cạnh trên trong suốt */
+  border-bottom: 0.5vw solid transparent;  /* cạnh dưới trong suốt */
+  border-left: 1vw solid #000000;        /* cạnh trái có màu → nhọn hướng sang phải */
+  display: inline-block;
+  margin-left: 3vw;
 }
 
-/* Bên phải - hình ảnh */
-.login-right.laptop {
-  padding: 0 1vw 4vh 1vw;
-  margin: 0 0 15vh 5vw;
-  box-shadow: -0.1vw 0.9vh 1vw rgba(0, 0, 0, 0.4);
-  background-color: #ffffff;
-}
-
-.login-right.laptop img {
-  position: relative;
-  height: 100vh; /* Hoặc vừa đủ 1 ảnh */
-  overflow: hidden; /* Cắt ảnh khi trượt */
-  border: 0.5vw solid #ffffff;
-  height: 50vh;
-  width: 40vw;
-  object-fit: cover;
-  margin-bottom: 2vh;
-  box-shadow: -0.4vw 0.8vh 0.3vw rgba(0, 0, 0, 0.3);
-}
-
-/* Tạo hiệu ứng chuyển hình ảnh*/
-.img-transition {
-  position: relative;
-}
-
-.img-transition-track {
-  display: flex;
-  flex-direction: column;
-  animation: scrollLoop 16s linear infinite;
-}
-
-@keyframes scrollLoop {
-  0%   { transform: translateY(0); }
-  100% { transform: translateY(-208vh); }
-}
-
-/*Cuối trang*/
-.login-footer-strip.laptop {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100vw;
-  height: 20vh; /* bạn có thể thay đổi chiều cao nếu muốn */
-  background: linear-gradient(to right, #81bde2, #69b8ea ,#3baaee);
-  z-index: 0;
-  box-shadow: 0 -0.5vh 1vw rgba(0, 0, 0, 0.3);
-}
-
-/*Tạo animation cho khung luật chơi*/
-.rules-toggle-button.laptop {
-  padding: 2vh 2vw;
-  font-size: 1.3vw;
-  background-color: #ffb703;
-  border: none;
-  border-radius: 1vw;
-  cursor: pointer;
-  color: #fff;
-  transition: all 0.3s ease;
-  margin-left: 2.5vw;
-}
-
-.rules-toggle-button.laptop:hover {
-  background-color: #e3a100;
-  transform: translateY(-1.5vh);
-}
-
-/* Drawer trượt từ dưới lên */
-.rules-drawer.laptop {
-  position: fixed;
-  margin: 0 0 0 7vw;
-  bottom: -23vh; /* Ẩn đi */
-  height: 40vh;
-  width: 36vw;
-  background-color: #fff7ef;
-  border-radius: 2vw 2vw 0 0;
-  box-shadow: 0.3vw -0.5vh 0.5vw rgba(0, 0, 0, 0.2);
-  transition: bottom 1s ease;
-  padding: 2vh 2vw 1vh 2vw;
-  z-index: 0;
-}
-
-.rules-drawer.show.laptop {
-  bottom: 17vh; /* Hiện ra */
-}
-
-.rules-drawer.laptop ul {
-  padding: 0 0 0 1vw;
-  font-size: 1.2vw;
-}
-
-.rules-drawer.laptop ul li{
-  margin-bottom: 1vh;
-}
-
-.rules-text.laptop {
-  padding: 0 0 1vh 1vw;
-  font-size: 1.5vw;
-  color: #ffb703;
-  font-weight: bold;
-}
-
-/*Tạo animation cho khung giới thiệu*/
-.inst-toggle-button.laptop {
-  padding: 2vh 2vw;
-  font-size: 1.3vw;
-  background-color: #ffb703;
-  border: none;
-  border-radius: 1vw;
-  cursor: pointer;
-  color: #fff;
-  transition: all 0.3s ease;
-  margin-left: 2.5vw;
-}
-
-.inst-toggle-button.laptop:hover {
-  background-color: #e3a100;
-  transform: translateY(-1.5vh);
-}
-
-/* Drawer trượt từ dưới lên */
-.inst-drawer.laptop {
-  position: fixed;
-  margin: 0 0 0 7vw;
-  bottom: -23vh; /* Ẩn đi */
-  height: 40vh;
-  width: 36vw;
-  background-color: #fff7ef;
-  border-radius: 2vw 2vw 0 0;
-  box-shadow: 0.3vw -0.5vh 0.5vw rgba(0, 0, 0, 0.2);
-  transition: bottom 1s ease;
-  padding: 2vh 2vw 1vh 2vw;
-  z-index: 0;
-}
-
-.inst-drawer.show.laptop {
-  bottom: 17vh; /* Hiện ra */
-}
-
-.inst-drawer.laptop ul {
-  padding: 0 0 0 1vw;
-  font-size: 1.2vw;
-}
-
-.inst-drawer.laptop ul li{
-  margin-bottom: 1vh;
-}
-
-.inst-text.laptop {
-  padding: 0 0 1vh 1vw;
-  font-size: 1.5vw;
-  color: #ffb703;
-  font-weight: bold;
-}
-
-
-/*Giao diện cho mobile*/
-/*===========================================================================*/
-.login-container.mobile {
-  display: flex;
-  justify-content: space-between;
-  /* align-items: center; */
-  height: 100vh;
+.login-left.laptop {
+  display: flex;             /* dùng flexbox */
+  flex-direction: column;    /* xếp text theo cột */
+  align-items: center;       /* căn giữa theo chiều ngang */
+  height: 100vh;             /* chiếm full chiều cao màn hình */
+  justify-content: center;
   box-sizing: border-box;
-  font-family: 'Segoe UI', sans-serif;
-  color: #5a4d45;
+  margin-top: -15vh;
+  margin-left: -60vw;
+}
+
+.login-title.laptop {
+  font-size: 12vw;
+  font-weight: 800;
+}
+
+.login-slogan.laptop {
+  font-size: 1.9vw;
+  font-weight: 300;
+  color: #9fc1ff;
+}
+
+.login-title.laptop p {
+  width: 30vw;
+  overflow: auto;
+  font-size: 1.3vw;
+  font-weight: 200;
+  text-align: justify;
 }
